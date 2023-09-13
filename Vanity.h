@@ -134,6 +134,7 @@ private:
   std::vector<prefix_t> usedPrefix;
   std::vector<LPREFIX> usedPrefixL;
   std::vector<std::string> &inputPrefixes;
+  std::vector<int> gpuId;
 
   Int beta;
   Int lambda;
