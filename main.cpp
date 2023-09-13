@@ -567,7 +567,7 @@ int main(int argc, char* argv[]) {
   }
 
   VanitySearch *v = new VanitySearch(secp, prefix, seed, searchMode, gpuEnable, stop, outputFile, sse,
-    maxFound, rekey, caseSensitive, startPuKey, paranoiacSeed);
+    maxFound, rekey, caseSensitive, startPuKey, paranoiacSeed, gpuId);
   v->Search(nbCPUThread,gpuId,gridSize);
 
   return 0;

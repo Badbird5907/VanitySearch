@@ -40,7 +40,8 @@ Point _2Gn;
 
 VanitySearch::VanitySearch(Secp256K1 *secp, vector<std::string> &inputPrefixes,string seed,int searchMode,
                            bool useGpu, bool stop, string outputFile, bool useSSE, uint32_t maxFound,
-                           uint64_t rekey, bool caseSensitive, Point &startPubKey, bool paranoiacSeed)
+                           uint64_t rekey, bool caseSensitive, Point &startPubKey, bool paranoiacSeed,
+                           vector<int> gpuId)
   :inputPrefixes(inputPrefixes) {
 
   this->secp = secp;
@@ -57,6 +58,7 @@ VanitySearch::VanitySearch(Secp256K1 *secp, vector<std::string> &inputPrefixes,s
   this->hasPattern = false;
   this->caseSensitive = caseSensitive;
   this->startPubKeySpecified = !startPubKey.isZero();
+  this->gpuId = gpuId;
 
   lastRekey = 0;
   prefixes.clear();
@@ -1748,8 +1750,8 @@ void VanitySearch::Search(int nbThread,std::vector<int> gpuId,std::vector<int> g
     if (isAlive(params)) {
       printf("\r[%.2f Mkey/s][GPU %.2f Mkey/s(%llu" "x" ")][Total 2^%.2f]%s[Found %d]  ",
         avgKeyRate / 1000000.0, avgGpuKeyRate / 1000000.0,
-        gpuCount, // uint64_t
-          log2((double)count), GetExpectedTime(avgKeyRate, (double)count).c_str(),nbFoundKey);
+        gpuId.size(), log2((double)count), GetExpectedTime(avgKeyRate,
+        (double)count).c_str(),nbFoundKey);
     }
 
     if (rekey > 0) {
